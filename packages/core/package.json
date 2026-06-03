@@ -1,0 +1,44 @@
+{
+  "name": "@ghostuser/core",
+  "version": "0.0.1",
+  "description": "Core engine: AI personas that simulate users to find UX bugs in screenshots.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./personas": {
+      "types": "./dist/persona.d.ts",
+      "import": "./dist/persona.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  },
+  "license": "MIT",
+  "author": "Miloš Savić <milos@negotiatewind.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/savkevip/ghostuser.git",
+    "directory": "packages/core"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

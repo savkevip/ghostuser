@@ -1,0 +1,12 @@
+{
+  "name": "GhostUser",
+  "id": "ghostuser",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["https://api.anthropic.com"],
+    "reasoning": "Direct calls to Claude API for persona-based UX testing of the user's designs."
+  }
+}

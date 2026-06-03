@@ -1,0 +1,13 @@
+node_modules
+dist
+.env
+.env.local
+.DS_Store
+*.log
+coverage
+.turbo
+.vscode
+.idea
+
+# Internal strategy notes — not for public
+WORKSHOPS.md

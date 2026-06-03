@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    --fg: var(--figma-color-text, #1e1e1e);
+    --fg-muted: var(--figma-color-text-secondary, #6b6b6b);
+    --bg: var(--figma-color-bg, #ffffff);
+    --border: var(--figma-color-border, #e5e5e5);
+    --accent: var(--figma-color-bg-brand, #0d99ff);
+    --accent-fg: #fff;
+    --danger: #e03e3e;
+    --ok: #1a9f5b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 16px;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 12px;
+    color: var(--fg);
+    background: var(--bg);
+  }
+  h1 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+  .sub { color: var(--fg-muted); margin: 0 0 16px; font-size: 11px; }
+  label { display: block; margin: 12px 0 4px; font-weight: 500; }
+  input, select, textarea {
+    width: 100%; padding: 6px 8px;
+    border: 1px solid var(--border); border-radius: 4px;
+    background: var(--bg); color: var(--fg);
+    font: inherit;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none; border-color: var(--accent);
+  }
+  button {
+    width: 100%; padding: 8px 12px; margin-top: 12px;
+    border: none; border-radius: 6px;
+    background: var(--accent); color: var(--accent-fg);
+    font: inherit; font-weight: 600;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  button.secondary {
+    background: transparent; color: var(--fg-muted);
+    border: 1px solid var(--border);
+  }
+  .selection-info {
+    margin: 8px 0; padding: 8px;
+    background: rgba(0,0,0,0.04); border-radius: 4px;
+    font-size: 11px; color: var(--fg-muted);
+  }
+  .selection-info.ok { color: var(--ok); }
+  .badge {
+    display: inline-block; padding: 1px 6px; border-radius: 4px;
+    font-size: 10px; font-weight: 600;
+    background: rgba(0,0,0,0.06);
+  }
+  .badge.high { background: #ffe0e0; color: #c12424; }
+  .badge.medium { background: #fff3cd; color: #876100; }
+  .badge.low { background: #d6f1de; color: #1a6b3a; }
+  .verdict {
+    padding: 10px; border-radius: 6px; font-weight: 600;
+    margin: 12px 0;
+  }
+  .verdict.passed { background: #d6f1de; color: var(--ok); }
+  .verdict.warning { background: #fff3cd; color: #876100; }
+  .verdict.failed { background: #ffe0e0; color: var(--danger); }
+  .bug { margin: 6px 0; padding: 8px; background: rgba(0,0,0,0.04); border-radius: 4px; }
+  .bug-desc { margin-top: 4px; }
+  .chain { margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.03); border-radius: 4px; font-style: italic; white-space: pre-wrap; }
+  .cost { font-size: 10px; color: var(--fg-muted); margin-top: 8px; }
+  .hidden { display: none; }
+  .error { color: var(--danger); padding: 8px; background: #ffe0e0; border-radius: 4px; margin: 8px 0; }
+</style>
+</head>
+<body>
+
+<div id="screen-setup" class="hidden">
+  <h1>👋 Welcome to GhostUser</h1>
+  <p class="sub">Paste your Anthropic API key to get started. Stored locally in Figma — never leaves your machine.</p>
+  <label for="apikey">Anthropic API key</label>
+  <input id="apikey" type="password" placeholder="sk-ant-..." />
+  <button id="save-key">Save and continue</button>
+  <p class="sub" style="margin-top: 12px;">Need a key? Get one at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
+</div>
+
+<div id="screen-main" class="hidden">
+  <h1>🎭 GhostUser</h1>
+  <p class="sub">AI personas test your designs.</p>
+
+  <div id="selection" class="selection-info">No frames selected.</div>
+
+  <label for="goal">What should the user accomplish?</label>
+  <input id="goal" placeholder="Sign up for the product" />
+
+  <label for="persona">Persona</label>
+  <select id="persona">
+    <option value="newbie">Maya the Newbie (first-time user)</option>
+    <option value="buyer">Dan the Buyer (evaluating to pay)</option>
+    <option value="power">Riley the Power User</option>
+    <option value="skeptic">Sam the Skeptic</option>
+    <option value="hurried">Alex In-A-Hurry</option>
+  </select>
+
+  <label for="model">Model</label>
+  <select id="model">
+    <option value="claude-sonnet-4-6" selected>Sonnet 4.6 — Balanced</option>
+    <option value="claude-haiku-4-5">Haiku 4.5 — Fast & cheap</option>
+    <option value="claude-opus-4-7">Opus 4.7 — Highest quality</option>
+  </select>
+
+  <button id="run">Run test</button>
+  <button id="reset-key" class="secondary">Change API key</button>
+
+  <div id="status" class="hidden"></div>
+  <div id="error" class="hidden"></div>
+  <div id="result" class="hidden"></div>
+</div>
+
+<script>
+(function () {
+  const KEY = "ghostuser:apikey";
+  const PERSONAS = {
+    newbie: { name: "Maya the Newbie", desc: "First-time user, never seen your product. 27, marketing coordinator. Low patience. Hates jargon and unclear CTAs." },
+    buyer: { name: "Dan the Buyer", desc: "42, head of operations evaluating to pay. Wants pricing, social proof, comparison to competitors." },
+    power: { name: "Riley the Power User", desc: "31, senior engineer using 20+ tools daily. Expects keyboard shortcuts, fast UI, integrations." },
+    skeptic: { name: "Sam the Skeptic", desc: "38, freelance designer. Burned by 20+ failed SaaS subs. Distrusts marketing copy." },
+    hurried: { name: "Alex In-A-Hurry", desc: "29, PM browsing on phone between meetings. Has 60 seconds. Bounces if not immediately clear." },
+  };
+
+  const $ = (id) => document.getElementById(id);
+
+  function show(id) { $(id).classList.remove("hidden"); }
+  function hide(id) { $(id).classList.add("hidden"); }
+
+  async function getStoredKey() {
+    return new Promise((resolve) => {
+      const handler = (e) => {
+        const m = e.data.pluginMessage;
+        if (m && m.type === "stored-key") {
+          window.removeEventListener("message", handler);
+          resolve(m.key || null);
+        }
+      };
+      window.addEventListener("message", handler);
+      parent.postMessage({ pluginMessage: { type: "get-stored-key" } }, "*");
+    });
+  }
+
+  function send(msg) {
+    parent.postMessage({ pluginMessage: msg }, "*");
+  }
+
+  function setStatus(text) {
+    const s = $("status");
+    s.textContent = text;
+    show("status");
+  }
+
+  function setError(text) {
+    const e = $("error");
+    e.textContent = text;
+    e.className = "error";
+    show("error");
+  }
+
+  function clearOutputs() {
+    hide("status");
+    hide("error");
+    hide("result");
+  }
+
+  async function callClaude(opts) {
+    const { apiKey, model, persona, goal, frame } = opts;
+    const personaInfo = PERSONAS[persona];
+
+    const tool = {
+      name: "submit_simulation",
+      description: "Submit the persona's reaction, verdict, and bugs.",
+      input_schema: {
+        type: "object",
+        properties: {
+          chainOfThought: { type: "string" },
+          verdict: { type: "string", enum: ["passed", "warning", "failed"] },
+          bugs: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                severity: { type: "string", enum: ["low", "medium", "high"] },
+                description: { type: "string" }
+              },
+              required: ["severity", "description"]
+            }
+          }
+        },
+        required: ["chainOfThought", "verdict", "bugs"]
+      }
+    };
+
+    const system = `You are simulating a real user looking at a UI. You ARE the persona — not an AI.
+Be brutally honest. If you don't understand something, say so. If you'd bounce, say so. Call submit_simulation.`;
+
+    const userText = `You are "${personaInfo.name}" — ${personaInfo.desc}
+
+YOUR GOAL on this screen: ${goal}
+
+Look at the screenshot. Walk through what you'd actually do, in your own voice. Don't be polite. Call submit_simulation.`;
+
+    const resp = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true",
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: 2048,
+        system,
+        tools: [tool],
+        tool_choice: { type: "tool", name: tool.name },
+        messages: [{
+          role: "user",
+          content: [
+            { type: "image", source: { type: "base64", media_type: "image/png", data: frame.base64 } },
+            { type: "text", text: userText }
+          ]
+        }]
+      })
+    });
+
+    if (!resp.ok) {
+      const body = await resp.text();
+      throw new Error(`Claude API ${resp.status}: ${body.slice(0, 200)}`);
+    }
+
+    const data = await resp.json();
+    const toolUse = (data.content || []).find((b) => b.type === "tool_use" && b.name === tool.name);
+    if (!toolUse) throw new Error("Model did not return expected tool_use block.");
+    return {
+      ...toolUse.input,
+      usage: data.usage,
+      frame
+    };
+  }
+
+  function renderResults(results) {
+    const r = $("result");
+    let html = "";
+    let totalInput = 0;
+    let totalOutput = 0;
+
+    for (const res of results) {
+      const verdictClass = res.verdict || "warning";
+      html += `<div class="verdict ${verdictClass}">📐 ${escapeHtml(res.frame.name)} — ${verdictClass.toUpperCase()}</div>`;
+      html += `<div class="chain">${escapeHtml(res.chainOfThought || "")}</div>`;
+      if (res.bugs && res.bugs.length) {
+        html += `<div><strong>UX bugs:</strong></div>`;
+        for (const bug of res.bugs) {
+          html += `<div class="bug"><span class="badge ${bug.severity}">${(bug.severity || "medium").toUpperCase()}</span><div class="bug-desc">${escapeHtml(bug.description)}</div></div>`;
+        }
+      } else {
+        html += `<div class="sub">No UX bugs reported.</div>`;
+      }
+      totalInput += (res.usage && res.usage.input_tokens) || 0;
+      totalOutput += (res.usage && res.usage.output_tokens) || 0;
+    }
+
+    html += `<div class="cost">💰 Tokens: ${totalInput.toLocaleString()} in + ${totalOutput.toLocaleString()} out</div>`;
+    r.innerHTML = html;
+    show("result");
+  }
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  async function init() {
+    const key = await getStoredKey();
+    if (!key) {
+      show("screen-setup");
+    } else {
+      show("screen-main");
+      send({ type: "ready" });
+    }
+
+    $("save-key").addEventListener("click", () => {
+      const v = $("apikey").value.trim();
+      if (!v.startsWith("sk-ant-")) {
+        alert("API key should start with sk-ant-");
+        return;
+      }
+      send({ type: "store-key", key: v });
+      hide("screen-setup");
+      show("screen-main");
+      send({ type: "ready" });
+    });
+
+    $("reset-key").addEventListener("click", () => {
+      send({ type: "store-key", key: "" });
+      hide("screen-main");
+      show("screen-setup");
+    });
+
+    $("run").addEventListener("click", () => {
+      clearOutputs();
+      const goal = $("goal").value.trim();
+      if (!goal) {
+        setError("Enter a goal first.");
+        return;
+      }
+      setStatus("Exporting selected frames…");
+      $("run").disabled = true;
+      send({ type: "run", goal, personaId: $("persona").value });
+    });
+
+    window.addEventListener("message", async (event) => {
+      const msg = event.data.pluginMessage;
+      if (!msg) return;
+
+      if (msg.type === "selection") {
+        const el = $("selection");
+        if (msg.count === 0) {
+          el.textContent = "No frames selected. Pick 1+ frames in Figma.";
+          el.classList.remove("ok");
+        } else {
+          el.textContent = `${msg.count} frame${msg.count > 1 ? "s" : ""} selected: ${(msg.names || []).join(", ").slice(0, 80)}`;
+          el.classList.add("ok");
+        }
+      }
+
+      if (msg.type === "exporting") {
+        setStatus(`Exporting ${msg.count} frame${msg.count > 1 ? "s" : ""}…`);
+      }
+
+      if (msg.type === "exported") {
+        const apiKey = await getStoredKey();
+        if (!apiKey) {
+          setError("API key missing.");
+          $("run").disabled = false;
+          return;
+        }
+
+        const model = $("model").value;
+        const persona = $("persona").value;
+        const goal = $("goal").value.trim();
+
+        try {
+          const results = [];
+          for (let i = 0; i < msg.frames.length; i++) {
+            setStatus(`Asking ${PERSONAS[persona].name} about frame ${i + 1}/${msg.frames.length}…`);
+            const r = await callClaude({ apiKey, model, persona, goal, frame: msg.frames[i] });
+            results.push(r);
+          }
+          hide("status");
+          renderResults(results);
+        } catch (e) {
+          setError("Claude API failed: " + e.message);
+        } finally {
+          $("run").disabled = false;
+        }
+      }
+
+      if (msg.type === "error") {
+        setError(msg.message);
+        $("run").disabled = false;
+      }
+    });
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

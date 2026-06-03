@@ -1,0 +1,42 @@
+{
+  "name": "ghostuser",
+  "version": "0.0.1",
+  "private": true,
+  "description": "AI personas that test your UX before real users do.",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @ghostuser/core && npm run build -w @ghostuser/agent && npm run build -w @ghostuser/mcp && npm run build -w @ghostuser/figma",
+    "dev": "npm run dev --workspaces --if-present",
+    "clean": "rm -rf packages/*/dist",
+    "test:mcp": "node scripts/test-mcp.mjs",
+    "demo": "node examples/run.mjs",
+    "agent": "node packages/agent/dist/cli.js",
+    "criteria": "node scripts/ghostuser-criteria.mjs"
+  },
+  "author": "Miloš Savić <milos@negotiatewind.com> (https://github.com/savkevip)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/savkevip/ghostuser.git"
+  },
+  "homepage": "https://github.com/savkevip/ghostuser",
+  "bugs": {
+    "url": "https://github.com/savkevip/ghostuser/issues"
+  },
+  "keywords": [
+    "ux",
+    "ux-testing",
+    "ai",
+    "claude",
+    "mcp",
+    "figma",
+    "design",
+    "personas",
+    "usability"
+  ],
+  "engines": {
+    "node": ">=20"
+  }
+}

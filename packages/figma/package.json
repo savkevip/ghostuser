@@ -1,0 +1,17 @@
+{
+  "name": "@ghostuser/figma",
+  "version": "0.0.1",
+  "description": "GhostUser Figma plugin — AI personas that test your designs inside Figma.",
+  "private": true,
+  "scripts": {
+    "build": "tsc && cp src/ui.html dist/ui.html && cp manifest.json dist/manifest.json",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.100.0",
+    "typescript": "^5.4.0"
+  },
+  "license": "MIT",
+  "author": "Miloš Savić <milos@negotiatewind.com>"
+}

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["ES2017", "DOM"],
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmitOnError": false,
+    "moduleResolution": "node",
+    "types": ["@figma/plugin-typings"]
+  },
+  "include": ["src/code.ts"],
+  "exclude": ["node_modules", "dist", "src/ui.html"]
+}
