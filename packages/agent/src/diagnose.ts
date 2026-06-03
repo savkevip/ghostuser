@@ -4,6 +4,7 @@ import {
   computeCost,
   withRetry,
   extractToolInput,
+  resolveApiKey,
   DEFAULT_MODEL,
   type Persona,
   type CostBreakdown,
@@ -115,7 +116,7 @@ export async function diagnoseRun(
   }
 
   const client = new Anthropic({
-    apiKey: input.apiKey ?? process.env.ANTHROPIC_API_KEY,
+    apiKey: resolveApiKey(input.apiKey),
   });
 
   const criteria = await loadCriteria();

@@ -122,7 +122,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
           url: {
             type: "string",
             description:
-              "URL to test. Strongly prefer localhost (e.g. http://localhost:3000). Production URLs with bot protection will be blocked.",
+              "URL to test. Point this at your dev server (e.g. http://localhost:3000) — GhostUser doesn't support sites behind bot protection, and dev is where you're testing your own work anyway.",
           },
           personaId: {
             type: "string",
@@ -291,7 +291,7 @@ Walk the user through these steps. Ask ONE question at a time. Be friendly and c
 
 ## Step 1 — What to test
 Ask:
-> "What do you want to test? Paste a URL — ideally a localhost dev server like \`http://localhost:3000\` (we can't bypass bot protection on production). OR, if you have a static screenshot/Figma export, give me the absolute file path."
+> "What do you want to test? Paste a URL — ideally your dev server (e.g. \`http://localhost:3000\`). GhostUser doesn't support sites behind bot protection, so dev is the right target anyway. OR, if you have a static screenshot/Figma export, give me the absolute file path."
 
 Decision branch:
 - If URL → you'll call \`run_agent_test\` at the end

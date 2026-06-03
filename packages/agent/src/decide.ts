@@ -5,6 +5,7 @@ import {
   computeCost,
   withRetry,
   extractToolInput,
+  resolveApiKey,
   DEFAULT_MODEL,
   type CostBreakdown,
   type TokenUsage,
@@ -103,7 +104,7 @@ export async function decideNextAction(opts: {
   const model = opts.model ?? DEFAULT_MODEL;
 
   const client = new Anthropic({
-    apiKey: opts.apiKey ?? process.env.ANTHROPIC_API_KEY,
+    apiKey: resolveApiKey(opts.apiKey),
   });
 
   const elementsList = opts.elements.length

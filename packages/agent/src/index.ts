@@ -1,4 +1,6 @@
 export { runAgent } from "./agent.js";
+export { init, resolveApiKey } from "ghostuser-core";
+export type { InitOptions } from "ghostuser-core";
 export { detectBotProtection } from "./bot-detection.js";
 export { getInteractiveElements } from "./dom.js";
 export { diagnoseRun } from "./diagnose.js";

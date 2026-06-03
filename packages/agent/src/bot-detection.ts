@@ -6,7 +6,7 @@ export interface BotDetectionResult {
 }
 
 const FRIENDLY_HINT =
-  "Run GhostUser against your localhost dev server (e.g. http://localhost:3000) instead — we don't bypass bot protection.";
+  "GhostUser doesn't support sites behind bot protection — point it at your dev server instead (e.g. http://localhost:3000), where you're testing your own work anyway.";
 
 export async function detectBotProtection(
   page: Page,

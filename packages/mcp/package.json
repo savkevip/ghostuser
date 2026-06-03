@@ -1,6 +1,6 @@
 {
   "name": "ghostuser-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for GhostUser. Use AI personas to test UX inside Claude Desktop, Claude Code, Cursor, Windsurf.",
   "type": "module",
   "main": "./dist/index.js",
@@ -9,7 +9,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsc && chmod +x dist/index.js",
@@ -18,8 +19,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "ghostuser-core": "^0.0.1",
-    "ghostuser-agent": "^0.0.1",
+    "ghostuser-core": "^0.0.2",
+    "ghostuser-agent": "^0.0.2",
     "@modelcontextprotocol/sdk": "^1.0.0"
   },
   "devDependencies": {

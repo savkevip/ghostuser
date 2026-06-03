@@ -1,6 +1,6 @@
 {
   "name": "ghostuser-core",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Core engine: AI personas that simulate users to find UX bugs in screenshots.",
   "type": "module",
   "main": "./dist/index.js",
@@ -17,7 +17,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsc",
