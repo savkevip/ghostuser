@@ -1,4 +1,4 @@
-# @ghostuser/figma
+# ghostuser-figma
 
 > GhostUser Figma plugin — AI personas test your designs inside Figma.
 
@@ -16,8 +16,8 @@ Your Anthropic API key stays in `figma.clientStorage` on your machine — never 
 From the monorepo root:
 
 ```bash
-npm install --workspace @ghostuser/figma
-npm run build --workspace @ghostuser/figma
+npm install --workspace ghostuser-figma
+npm run build --workspace ghostuser-figma
 ```
 
 This produces `packages/figma/dist/` containing:

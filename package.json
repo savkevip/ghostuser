@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build -w @ghostuser/core && npm run build -w @ghostuser/agent && npm run build -w @ghostuser/mcp && npm run build -w @ghostuser/figma",
+    "build": "npm run build -w ghostuser-core && npm run build -w ghostuser-agent && npm run build -w ghostuser-mcp && npm run build -w ghostuser-figma",
     "dev": "npm run dev --workspaces --if-present",
     "clean": "rm -rf packages/*/dist",
     "test:mcp": "node scripts/test-mcp.mjs",

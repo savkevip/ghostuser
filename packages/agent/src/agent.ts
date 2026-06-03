@@ -1,5 +1,5 @@
 import { chromium, type Browser, type Page } from "playwright";
-import { getPersonaAsync } from "@ghostuser/core";
+import { getPersonaAsync } from "ghostuser-core";
 import { detectBotProtection } from "./bot-detection.js";
 import { getInteractiveElements } from "./dom.js";
 import { decideNextAction } from "./decide.js";

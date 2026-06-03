@@ -19,8 +19,8 @@ import {
   type ImageMediaType,
   type Persona,
   type SimulationResult,
-} from "@ghostuser/core";
-import { runAgent, type AgentResult } from "@ghostuser/agent";
+} from "ghostuser-core";
+import { runAgent, type AgentResult } from "ghostuser-agent";
 import { readFile } from "node:fs/promises";
 import { extname } from "node:path";
 

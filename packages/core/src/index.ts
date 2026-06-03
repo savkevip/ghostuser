@@ -40,3 +40,5 @@ export type {
 export { fetchAvailableModels, pickDefaultModel } from "./models.js";
 export type { ModelInfo } from "./models.js";
 export { withRetry, extractToolInput } from "./llm.js";
+export { init, resolveApiKey } from "./config.js";
+export type { InitOptions } from "./config.js";

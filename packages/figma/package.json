@@ -1,5 +1,5 @@
 {
-  "name": "@ghostuser/figma",
+  "name": "ghostuser-figma",
   "version": "0.0.1",
   "description": "GhostUser Figma plugin — AI personas that test your designs inside Figma.",
   "private": true,

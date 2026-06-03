@@ -1,4 +1,4 @@
-# @ghostuser/mcp
+# ghostuser-mcp
 
 > MCP server. Use GhostUser AI personas to test UX inside Claude Desktop, Claude Code, Cursor, Windsurf.
 

@@ -189,10 +189,10 @@ Haiku ~5× cheaper. Opus ~5× more expensive. The real cost is shown after every
 
 | Package | What it is |
 |---|---|
-| [`@ghostuser/core`](./packages/core) | Persona library + single-screenshot simulator |
-| [`@ghostuser/agent`](./packages/agent) | Playwright + Claude vision agent for live sites |
-| [`@ghostuser/mcp`](./packages/mcp) | MCP server (7 tools) for Claude Desktop / Code / Cursor / Windsurf |
-| [`@ghostuser/figma`](./packages/figma) | Figma plugin |
+| [`ghostuser-core`](./packages/core) | Persona library + single-screenshot simulator |
+| [`ghostuser-agent`](./packages/agent) | Playwright + Claude vision agent for live sites |
+| [`ghostuser-mcp`](./packages/mcp) | MCP server (7 tools) for Claude Desktop / Code / Cursor / Windsurf |
+| [`ghostuser-figma`](./packages/figma) | Figma plugin |
 
 Same engine, four surfaces.
 

@@ -5,6 +5,7 @@ import {
   getPricing,
   MODEL_PRICING,
 } from "./pricing.js";
+import { resolveApiKey } from "./config.js";
 
 export interface ModelInfo {
   id: string;
@@ -89,7 +90,7 @@ function buildModelInfo(id: string, displayNameFromApi?: string): ModelInfo {
 export async function fetchAvailableModels(
   apiKey?: string,
 ): Promise<ModelInfo[]> {
-  const key = apiKey ?? process.env.ANTHROPIC_API_KEY;
+  const key = resolveApiKey(apiKey);
   if (!key) {
     return Object.keys(KNOWN_MODEL_INFO).map((id) => buildModelInfo(id));
   }

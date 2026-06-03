@@ -8,6 +8,7 @@ import {
   type TokenUsage,
 } from "./pricing.js";
 import { withRetry, extractToolInput } from "./llm.js";
+import { resolveApiKey } from "./config.js";
 
 export type ImageMediaType =
   | "image/png"
@@ -121,7 +122,7 @@ export async function simulate(
   const model = options.model ?? DEFAULT_MODEL;
 
   const client = new Anthropic({
-    apiKey: options.apiKey ?? process.env.ANTHROPIC_API_KEY,
+    apiKey: resolveApiKey(options.apiKey),
   });
 
   const userPrompt = buildPersonaPrompt(persona, options.goal);

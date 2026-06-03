@@ -1,4 +1,4 @@
-# @ghostuser/agent
+# ghostuser-agent
 
 > Autonomous agent: AI personas that navigate live websites and find UX bugs.
 
@@ -29,7 +29,7 @@ You'll be prompted for URL, goal, persona, and whether to show the browser windo
 ### Library
 
 ```ts
-import { runAgent } from "@ghostuser/agent";
+import { runAgent } from "ghostuser-agent";
 
 const result = await runAgent({
   url: "http://localhost:3000",

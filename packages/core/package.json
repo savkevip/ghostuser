@@ -1,5 +1,5 @@
 {
-  "name": "@ghostuser/core",
+  "name": "ghostuser-core",
   "version": "0.0.1",
   "description": "Core engine: AI personas that simulate users to find UX bugs in screenshots.",
   "type": "module",

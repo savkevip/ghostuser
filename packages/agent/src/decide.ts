@@ -8,7 +8,7 @@ import {
   DEFAULT_MODEL,
   type CostBreakdown,
   type TokenUsage,
-} from "@ghostuser/core";
+} from "ghostuser-core";
 import type { AgentAction, AgentStep, ActionType } from "./types.js";
 import type { InteractiveElement } from "./dom.js";
 

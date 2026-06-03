@@ -1,11 +1,11 @@
 {
-  "name": "@ghostuser/mcp",
+  "name": "ghostuser-mcp",
   "version": "0.1.0",
   "description": "MCP server for GhostUser. Use AI personas to test UX inside Claude Desktop, Claude Code, Cursor, Windsurf.",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "ghostuser-mcp": "./dist/index.js"
+    "ghostuser-mcp": "dist/index.js"
   },
   "files": [
     "dist",
@@ -18,8 +18,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@ghostuser/core": "*",
-    "@ghostuser/agent": "*",
+    "ghostuser-core": "^0.0.1",
+    "ghostuser-agent": "^0.0.1",
     "@modelcontextprotocol/sdk": "^1.0.0"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
   "author": "Miloš Savić <milos@negotiatewind.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/savkevip/ghostuser.git",
+    "url": "git+https://github.com/savkevip/ghostuser.git",
     "directory": "packages/mcp"
   },
   "engines": {

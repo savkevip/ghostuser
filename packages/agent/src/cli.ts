@@ -16,7 +16,7 @@ import {
   fetchAvailableModels,
   pickDefaultModel,
   type Persona,
-} from "@ghostuser/core";
+} from "ghostuser-core";
 import { runAgent } from "./agent.js";
 import type { AgentResult, AgentStep } from "./types.js";
 

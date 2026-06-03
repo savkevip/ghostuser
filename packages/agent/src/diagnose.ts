@@ -8,7 +8,7 @@ import {
   type Persona,
   type CostBreakdown,
   type TokenUsage,
-} from "@ghostuser/core";
+} from "ghostuser-core";
 import type {
   AgentStep,
   TechnicalIssue,
