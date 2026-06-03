@@ -2,6 +2,8 @@
 
 > Autonomous agent: AI personas navigate your live site, click around, type, scroll, get confused, and report back UX bugs *and* QA bugs.
 
+![GhostUser agent in action](https://raw.githubusercontent.com/savkevip/ghostuser/main/assets/agent-demo.gif)
+
 Give it a URL and a goal. It opens real Chromium (via Playwright), pretends to be a persona, and walks the screen step by step — narrating what it sees, deciding what to click, and watching for broken stuff in the background (console errors, failed requests, HTTP 5xx).
 
 At the end you get:

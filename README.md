@@ -14,7 +14,9 @@ While they walk, GhostUser also catches **broken features** — console errors, 
 
 Open source. You bring your own Anthropic API key. Costs cents per test.
 
-![GhostUser CLI — interactive model picker with live Anthropic model list](docs/cli-model-picker.png)
+![Example of ghostuser-agent — AI persona navigating a live site](assets/agent-demo.gif)
+
+*Example of `ghostuser-agent` — persona opens your dev server, clicks around, and reports what's broken or confusing.*
 
 ---
 
