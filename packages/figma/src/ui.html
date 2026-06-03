@@ -7,120 +7,304 @@
     --fg: var(--figma-color-text, #1e1e1e);
     --fg-muted: var(--figma-color-text-secondary, #6b6b6b);
     --bg: var(--figma-color-bg, #ffffff);
+    --bg-soft: var(--figma-color-bg-secondary, #f5f5f5);
+    --bg-card: var(--figma-color-bg-tertiary, #fafafa);
     --border: var(--figma-color-border, #e5e5e5);
+    --border-soft: var(--figma-color-border-disabled, #ececec);
     --accent: var(--figma-color-bg-brand, #0d99ff);
     --accent-fg: #fff;
     --danger: #e03e3e;
     --ok: #1a9f5b;
+    --warn: #ca8a04;
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0; padding: 16px;
+    margin: 0; padding: 0;
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     font-size: 12px;
     color: var(--fg);
     background: var(--bg);
   }
-  h1 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
-  .sub { color: var(--fg-muted); margin: 0 0 16px; font-size: 11px; }
-  label { display: block; margin: 12px 0 4px; font-weight: 500; }
+  .container { padding: 20px 18px 24px; }
+
+  /* Header */
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 4px;
+  }
+  .logo {
+    width: 26px; height: 26px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  h1 { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .sub { color: var(--fg-muted); font-size: 11px; margin: 0 0 18px 36px; line-height: 1.4; }
+
+  /* Sections */
+  .section { margin: 18px 0; }
+  .section-label {
+    display: block; font-size: 10px; font-weight: 600;
+    color: var(--fg-muted); text-transform: uppercase;
+    letter-spacing: 0.06em; margin-bottom: 10px;
+  }
+  .section-label .opt {
+    font-weight: 400; letter-spacing: 0;
+    text-transform: none; margin-left: 6px;
+    color: var(--fg-muted); opacity: 0.7;
+  }
+
+  /* Selection badge */
+  .selection {
+    padding: 10px 12px; border-radius: 8px;
+    background: var(--bg-soft); border: 1px solid var(--border-soft);
+    font-size: 11px; color: var(--fg-muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .selection.ok { background: rgba(26, 159, 91, 0.08); border-color: rgba(26, 159, 91, 0.2); color: var(--ok); }
+  .selection-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--fg-muted); flex-shrink: 0;
+  }
+  .selection.ok .selection-dot { background: var(--ok); }
+
+  /* Inputs */
+  label {
+    display: block; font-size: 11px; font-weight: 500;
+    color: var(--fg); margin: 0 0 6px;
+  }
   input, select, textarea {
-    width: 100%; padding: 6px 8px;
-    border: 1px solid var(--border); border-radius: 4px;
+    width: 100%; padding: 8px 10px;
+    border: 1px solid var(--border); border-radius: 6px;
     background: var(--bg); color: var(--fg);
     font: inherit;
   }
+  textarea { resize: vertical; min-height: 64px; line-height: 1.4; }
   input:focus, select:focus, textarea:focus {
     outline: none; border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(13, 153, 255, 0.12);
   }
-  button {
-    width: 100%; padding: 8px 12px; margin-top: 12px;
-    border: none; border-radius: 6px;
+  .field { margin-bottom: 12px; }
+  .field:last-child { margin-bottom: 0; }
+
+  /* Buttons */
+  .actions { margin-top: 22px; }
+  button.primary {
+    width: 100%; padding: 11px 14px;
+    border: none; border-radius: 8px;
     background: var(--accent); color: var(--accent-fg);
-    font: inherit; font-weight: 600;
+    font: inherit; font-weight: 600; font-size: 12px;
     cursor: pointer;
+    transition: opacity 0.15s, transform 0.05s;
   }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
-  button.secondary {
+  button.primary:hover:not(:disabled) { opacity: 0.92; }
+  button.primary:active:not(:disabled) { transform: translateY(1px); }
+  button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  button.link {
+    width: 100%; margin-top: 8px;
     background: transparent; color: var(--fg-muted);
-    border: 1px solid var(--border);
+    border: none; padding: 6px;
+    font: inherit; font-size: 11px; cursor: pointer;
   }
-  .selection-info {
-    margin: 8px 0; padding: 8px;
-    background: rgba(0,0,0,0.04); border-radius: 4px;
-    font-size: 11px; color: var(--fg-muted);
+  button.link:hover { color: var(--fg); }
+
+  /* Status / error */
+  .status, .error {
+    margin-top: 14px; padding: 10px 12px;
+    border-radius: 6px; font-size: 11px;
   }
-  .selection-info.ok { color: var(--ok); }
-  .badge {
-    display: inline-block; padding: 1px 6px; border-radius: 4px;
-    font-size: 10px; font-weight: 600;
-    background: rgba(0,0,0,0.06);
+  .status {
+    background: var(--bg-soft); color: var(--fg-muted);
+    display: flex; align-items: center; gap: 8px;
   }
-  .badge.high { background: #ffe0e0; color: #c12424; }
-  .badge.medium { background: #fff3cd; color: #876100; }
-  .badge.low { background: #d6f1de; color: #1a6b3a; }
+  .status::before {
+    content: ""; width: 8px; height: 8px;
+    border-radius: 50%; background: var(--accent);
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+  .error {
+    background: rgba(224, 62, 62, 0.08); color: var(--danger);
+    border: 1px solid rgba(224, 62, 62, 0.2);
+  }
+
+  /* Results */
+  .results-wrap { margin-top: 18px; }
+  .result-card {
+    margin-bottom: 12px; padding: 14px;
+    background: var(--bg-card); border: 1px solid var(--border-soft);
+    border-radius: 10px;
+  }
+  .frame-name {
+    font-weight: 600; font-size: 11px; color: var(--fg-muted);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
   .verdict {
-    padding: 10px; border-radius: 6px; font-weight: 600;
-    margin: 12px 0;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 12px;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 12px;
   }
-  .verdict.passed { background: #d6f1de; color: var(--ok); }
-  .verdict.warning { background: #fff3cd; color: #876100; }
-  .verdict.failed { background: #ffe0e0; color: var(--danger); }
-  .bug { margin: 6px 0; padding: 8px; background: rgba(0,0,0,0.04); border-radius: 4px; }
-  .bug-desc { margin-top: 4px; }
-  .chain { margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.03); border-radius: 4px; font-style: italic; white-space: pre-wrap; }
-  .cost { font-size: 10px; color: var(--fg-muted); margin-top: 8px; }
-  .hidden { display: none; }
-  .error { color: var(--danger); padding: 8px; background: #ffe0e0; border-radius: 4px; margin: 8px 0; }
+  .verdict.passed { background: rgba(26, 159, 91, 0.12); color: var(--ok); }
+  .verdict.warning { background: rgba(202, 138, 4, 0.14); color: var(--warn); }
+  .verdict.failed { background: rgba(224, 62, 62, 0.12); color: var(--danger); }
+  .verdict-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+  .verdict.passed .verdict-dot { background: var(--ok); }
+  .verdict.warning .verdict-dot { background: var(--warn); }
+  .verdict.failed .verdict-dot { background: var(--danger); }
+  .chain {
+    padding: 12px; margin: 0 0 12px;
+    background: var(--bg); border: 1px solid var(--border-soft);
+    border-radius: 6px; font-style: italic;
+    white-space: pre-wrap; line-height: 1.55;
+    color: var(--fg); font-size: 11.5px;
+  }
+  .bugs-label {
+    font-size: 10px; font-weight: 700; color: var(--fg-muted);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin: 14px 0 6px;
+  }
+  .bug {
+    margin: 6px 0; padding: 10px;
+    background: var(--bg); border: 1px solid var(--border-soft);
+    border-radius: 6px;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .badge {
+    flex-shrink: 0;
+    padding: 3px 8px; border-radius: 12px;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .badge.high { background: rgba(224, 62, 62, 0.12); color: var(--danger); }
+  .badge.medium { background: rgba(202, 138, 4, 0.14); color: var(--warn); }
+  .badge.low { background: rgba(26, 159, 91, 0.12); color: var(--ok); }
+  .bug-desc { font-size: 11px; line-height: 1.45; color: var(--fg); }
+  .none-msg {
+    padding: 10px 12px; margin-top: 6px;
+    background: rgba(26, 159, 91, 0.08); border-radius: 6px;
+    font-size: 11px; color: var(--ok);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .cost {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px solid var(--border-soft);
+    font-size: 10px; color: var(--fg-muted);
+    display: flex; justify-content: space-between;
+    letter-spacing: 0.02em;
+  }
+
+  /* Setup screen */
+  .setup-hero {
+    text-align: center; padding: 24px 0 8px;
+  }
+  .setup-hero .logo {
+    width: 44px; height: 44px; margin: 0 auto 14px;
+    font-size: 22px; border-radius: 12px;
+  }
+  .setup-hero h2 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+  .setup-hero p {
+    margin: 0 0 20px; font-size: 11.5px;
+    color: var(--fg-muted); line-height: 1.5;
+  }
+  .footer-hint {
+    margin: 16px 0 0; text-align: center;
+    font-size: 10.5px; color: var(--fg-muted);
+  }
+  .footer-hint a { color: var(--accent); text-decoration: none; }
+  .footer-hint a:hover { text-decoration: underline; }
+
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
 
-<div id="screen-setup" class="hidden">
-  <h1>👋 Welcome to GhostUser</h1>
-  <p class="sub">Paste your Anthropic API key to get started. Stored locally in Figma — never leaves your machine.</p>
-  <label for="apikey">Anthropic API key</label>
-  <input id="apikey" type="password" placeholder="sk-ant-..." />
-  <button id="save-key">Save and continue</button>
-  <p class="sub" style="margin-top: 12px;">Need a key? Get one at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
+<div id="screen-setup" class="hidden container">
+  <div class="setup-hero">
+    <div class="logo">👻</div>
+    <h2>Welcome to GhostUser</h2>
+    <p>Paste your Anthropic API key to start.<br>Stored locally in Figma — never leaves your machine.</p>
+  </div>
+  <div class="field">
+    <label for="apikey">Anthropic API key</label>
+    <input id="apikey" type="password" placeholder="sk-ant-..." />
+  </div>
+  <div class="actions">
+    <button id="save-key" class="primary">Save and continue</button>
+  </div>
+  <p class="footer-hint">
+    Need a key? Get one at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>
+  </p>
 </div>
 
-<div id="screen-main" class="hidden">
-  <h1>🎭 GhostUser</h1>
+<div id="screen-main" class="hidden container">
+  <div class="brand">
+    <div class="logo">👻</div>
+    <h1>GhostUser</h1>
+  </div>
   <p class="sub">AI personas test your designs.</p>
 
-  <div id="selection" class="selection-info">No frames selected.</div>
+  <div class="section">
+    <span class="section-label">Selection</span>
+    <div id="selection" class="selection">
+      <span class="selection-dot"></span>
+      <span id="selection-text">No frames selected.</span>
+    </div>
+  </div>
 
-  <label for="goal">What should the user accomplish?</label>
-  <input id="goal" placeholder="Sign up for the product" />
+  <div class="section">
+    <span class="section-label">Test setup</span>
+    <div class="field">
+      <label for="goal">Goal</label>
+      <input id="goal" placeholder="Sign up for the product" />
+    </div>
+    <div class="field">
+      <label for="persona">Persona</label>
+      <select id="persona">
+        <option value="newbie">Maya the Newbie — first-time user</option>
+        <option value="buyer">Dan the Buyer — evaluating to pay</option>
+        <option value="power">Riley the Power User</option>
+        <option value="skeptic">Sam the Skeptic</option>
+        <option value="hurried">Alex In-A-Hurry</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="model">Model</label>
+      <select id="model">
+        <option value="claude-sonnet-4-6" selected>Sonnet 4.6 — Balanced</option>
+        <option value="claude-haiku-4-5">Haiku 4.5 — Fast & cheap</option>
+        <option value="claude-opus-4-7">Opus 4.7 — Highest quality</option>
+      </select>
+    </div>
+  </div>
 
-  <label for="persona">Persona</label>
-  <select id="persona">
-    <option value="newbie">Maya the Newbie (first-time user)</option>
-    <option value="buyer">Dan the Buyer (evaluating to pay)</option>
-    <option value="power">Riley the Power User</option>
-    <option value="skeptic">Sam the Skeptic</option>
-    <option value="hurried">Alex In-A-Hurry</option>
-  </select>
+  <div class="section">
+    <span class="section-label">Project context <span class="opt">optional</span></span>
+    <div class="field">
+      <textarea id="context" placeholder="What is this product? Who uses it? Any brand voice or terminology to know? Saved across sessions."></textarea>
+    </div>
+  </div>
 
-  <label for="model">Model</label>
-  <select id="model">
-    <option value="claude-sonnet-4-6" selected>Sonnet 4.6 — Balanced</option>
-    <option value="claude-haiku-4-5">Haiku 4.5 — Fast & cheap</option>
-    <option value="claude-opus-4-7">Opus 4.7 — Highest quality</option>
-  </select>
+  <div class="actions">
+    <button id="run" class="primary">Run test</button>
+    <button id="reset-key" class="link">Change API key</button>
+  </div>
 
-  <button id="run">Run test</button>
-  <button id="reset-key" class="secondary">Change API key</button>
-
-  <div id="status" class="hidden"></div>
-  <div id="error" class="hidden"></div>
-  <div id="result" class="hidden"></div>
+  <div id="status" class="status hidden"></div>
+  <div id="error" class="error hidden"></div>
+  <div id="result" class="results-wrap hidden"></div>
 </div>
 
 <script>
 (function () {
-  const KEY = "ghostuser:apikey";
   const PERSONAS = {
     newbie: { name: "Maya the Newbie", desc: "First-time user, never seen your product. 27, marketing coordinator. Low patience. Hates jargon and unclear CTAs." },
     buyer: { name: "Dan the Buyer", desc: "42, head of operations evaluating to pay. Wants pricing, social proof, comparison to competitors." },
@@ -130,41 +314,32 @@
   };
 
   const $ = (id) => document.getElementById(id);
+  const show = (id) => $(id).classList.remove("hidden");
+  const hide = (id) => $(id).classList.add("hidden");
+  const send = (msg) => parent.postMessage({ pluginMessage: msg }, "*");
 
-  function show(id) { $(id).classList.remove("hidden"); }
-  function hide(id) { $(id).classList.add("hidden"); }
-
-  async function getStoredKey() {
+  function getStored(requestType, responseType, field) {
     return new Promise((resolve) => {
       const handler = (e) => {
         const m = e.data.pluginMessage;
-        if (m && m.type === "stored-key") {
+        if (m && m.type === responseType) {
           window.removeEventListener("message", handler);
-          resolve(m.key || null);
+          resolve(m[field] || "");
         }
       };
       window.addEventListener("message", handler);
-      parent.postMessage({ pluginMessage: { type: "get-stored-key" } }, "*");
+      send({ type: requestType });
     });
   }
 
-  function send(msg) {
-    parent.postMessage({ pluginMessage: msg }, "*");
-  }
-
   function setStatus(text) {
-    const s = $("status");
-    s.textContent = text;
+    $("status").textContent = text;
     show("status");
   }
-
   function setError(text) {
-    const e = $("error");
-    e.textContent = text;
-    e.className = "error";
+    $("error").textContent = text;
     show("error");
   }
-
   function clearOutputs() {
     hide("status");
     hide("error");
@@ -172,7 +347,7 @@
   }
 
   async function callClaude(opts) {
-    const { apiKey, model, persona, goal, frame } = opts;
+    const { apiKey, model, persona, goal, context, frame } = opts;
     const personaInfo = PERSONAS[persona];
 
     const tool = {
@@ -199,8 +374,12 @@
       }
     };
 
-    const system = `You are simulating a real user looking at a UI. You ARE the persona — not an AI.
+    let system = `You are simulating a real user looking at a UI. You ARE the persona — not an AI.
 Be brutally honest. If you don't understand something, say so. If you'd bounce, say so. Call submit_simulation.`;
+
+    if (context && context.trim()) {
+      system += `\n\nProject context (from the designer):\n${context.trim()}\n\nUse this context to react more accurately as the persona — but stay in character.`;
+    }
 
     const userText = `You are "${personaInfo.name}" — ${personaInfo.desc}
 
@@ -240,11 +419,7 @@ Look at the screenshot. Walk through what you'd actually do, in your own voice. 
     const data = await resp.json();
     const toolUse = (data.content || []).find((b) => b.type === "tool_use" && b.name === tool.name);
     if (!toolUse) throw new Error("Model did not return expected tool_use block.");
-    return {
-      ...toolUse.input,
-      usage: data.usage,
-      frame
-    };
+    return { ...toolUse.input, usage: data.usage, frame };
   }
 
   function renderResults(results) {
@@ -255,21 +430,24 @@ Look at the screenshot. Walk through what you'd actually do, in your own voice. 
 
     for (const res of results) {
       const verdictClass = res.verdict || "warning";
-      html += `<div class="verdict ${verdictClass}">📐 ${escapeHtml(res.frame.name)} — ${verdictClass.toUpperCase()}</div>`;
+      html += `<div class="result-card">`;
+      html += `<div class="frame-name">📐 ${escapeHtml(res.frame.name)}</div>`;
+      html += `<div class="verdict ${verdictClass}"><span class="verdict-dot"></span>${verdictClass}</div>`;
       html += `<div class="chain">${escapeHtml(res.chainOfThought || "")}</div>`;
       if (res.bugs && res.bugs.length) {
-        html += `<div><strong>UX bugs:</strong></div>`;
+        html += `<div class="bugs-label">UX bugs</div>`;
         for (const bug of res.bugs) {
-          html += `<div class="bug"><span class="badge ${bug.severity}">${(bug.severity || "medium").toUpperCase()}</span><div class="bug-desc">${escapeHtml(bug.description)}</div></div>`;
+          html += `<div class="bug"><span class="badge ${bug.severity}">${(bug.severity || "medium")}</span><div class="bug-desc">${escapeHtml(bug.description)}</div></div>`;
         }
       } else {
-        html += `<div class="sub">No UX bugs reported.</div>`;
+        html += `<div class="none-msg">✓ No UX bugs reported.</div>`;
       }
+      html += `</div>`;
       totalInput += (res.usage && res.usage.input_tokens) || 0;
       totalOutput += (res.usage && res.usage.output_tokens) || 0;
     }
 
-    html += `<div class="cost">💰 Tokens: ${totalInput.toLocaleString()} in + ${totalOutput.toLocaleString()} out</div>`;
+    html += `<div class="cost"><span>Tokens</span><span>${totalInput.toLocaleString()} in · ${totalOutput.toLocaleString()} out</span></div>`;
     r.innerHTML = html;
     show("result");
   }
@@ -279,11 +457,13 @@ Look at the screenshot. Walk through what you'd actually do, in your own voice. 
   }
 
   async function init() {
-    const key = await getStoredKey();
+    const key = await getStored("get-stored-key", "stored-key", "key");
     if (!key) {
       show("screen-setup");
     } else {
       show("screen-main");
+      const ctx = await getStored("get-stored-context", "stored-context", "context");
+      $("context").value = ctx || "";
       send({ type: "ready" });
     }
 
@@ -296,6 +476,9 @@ Look at the screenshot. Walk through what you'd actually do, in your own voice. 
       send({ type: "store-key", key: v });
       hide("screen-setup");
       show("screen-main");
+      getStored("get-stored-context", "stored-context", "context").then((ctx) => {
+        $("context").value = ctx || "";
+      });
       send({ type: "ready" });
     });
 
@@ -305,6 +488,10 @@ Look at the screenshot. Walk through what you'd actually do, in your own voice. 
       show("screen-setup");
     });
 
+    $("context").addEventListener("blur", () => {
+      send({ type: "store-context", context: $("context").value });
+    });
+
     $("run").addEventListener("click", () => {
       clearOutputs();
       const goal = $("goal").value.trim();
@@ -312,6 +499,7 @@ Look at the screenshot. Walk through what you'd actually do, in your own voice. 
         setError("Enter a goal first.");
         return;
       }
+      send({ type: "store-context", context: $("context").value });
       setStatus("Exporting selected frames…");
       $("run").disabled = true;
       send({ type: "run", goal, personaId: $("persona").value });
@@ -323,11 +511,12 @@ Look at the screenshot. Walk through what you'd actually do, in your own voice. 
 
       if (msg.type === "selection") {
         const el = $("selection");
+        const t = $("selection-text");
         if (msg.count === 0) {
-          el.textContent = "No frames selected. Pick 1+ frames in Figma.";
+          t.textContent = "No frames selected. Pick 1+ frames in Figma.";
           el.classList.remove("ok");
         } else {
-          el.textContent = `${msg.count} frame${msg.count > 1 ? "s" : ""} selected: ${(msg.names || []).join(", ").slice(0, 80)}`;
+          t.textContent = `${msg.count} frame${msg.count > 1 ? "s" : ""}: ${(msg.names || []).join(", ").slice(0, 60)}`;
           el.classList.add("ok");
         }
       }
@@ -337,7 +526,7 @@ Look at the screenshot. Walk through what you'd actually do, in your own voice. 
       }
 
       if (msg.type === "exported") {
-        const apiKey = await getStoredKey();
+        const apiKey = await getStored("get-stored-key", "stored-key", "key");
         if (!apiKey) {
           setError("API key missing.");
           $("run").disabled = false;
@@ -347,12 +536,13 @@ Look at the screenshot. Walk through what you'd actually do, in your own voice. 
         const model = $("model").value;
         const persona = $("persona").value;
         const goal = $("goal").value.trim();
+        const context = $("context").value.trim();
 
         try {
           const results = [];
           for (let i = 0; i < msg.frames.length; i++) {
             setStatus(`Asking ${PERSONAS[persona].name} about frame ${i + 1}/${msg.frames.length}…`);
-            const r = await callClaude({ apiKey, model, persona, goal, frame: msg.frames[i] });
+            const r = await callClaude({ apiKey, model, persona, goal, context, frame: msg.frames[i] });
             results.push(r);
           }
           hide("status");

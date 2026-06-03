@@ -1,7 +1,7 @@
 // GhostUser Figma plugin — sandbox side.
 // Runs inside Figma's plugin sandbox. No DOM, no fetch. Talks to ui.html via postMessage.
 
-figma.showUI(__html__, { width: 360, height: 520, themeColors: true });
+figma.showUI(__html__, { width: 380, height: 620, themeColors: true });
 
 type FrameExport = {
   id: string;
@@ -16,9 +16,12 @@ type UiMessage =
   | { type: "run"; goal: string; personaId: string }
   | { type: "get-stored-key" }
   | { type: "store-key"; key: string }
+  | { type: "get-stored-context" }
+  | { type: "store-context"; context: string }
   | { type: "close" };
 
 const STORAGE_KEY = "ghostuser:apikey";
+const STORAGE_CONTEXT = "ghostuser:context";
 
 function selectedFrames(): readonly FrameNode[] {
   const sel = figma.currentPage.selection;
@@ -62,6 +65,19 @@ figma.ui.onmessage = async (msg: UiMessage) => {
 
   if (msg.type === "store-key") {
     await figma.clientStorage.setAsync(STORAGE_KEY, msg.key);
+    return;
+  }
+
+  if (msg.type === "get-stored-context") {
+    const ctx = (await figma.clientStorage.getAsync(STORAGE_CONTEXT)) as
+      | string
+      | undefined;
+    figma.ui.postMessage({ type: "stored-context", context: ctx ?? "" });
+    return;
+  }
+
+  if (msg.type === "store-context") {
+    await figma.clientStorage.setAsync(STORAGE_CONTEXT, msg.context);
     return;
   }
 
