@@ -1,6 +1,6 @@
 {
   "name": "ghostuser-agent",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Autonomous agent: AI personas that navigate live websites and find UX bugs.",
   "type": "module",
   "main": "./dist/index.js",

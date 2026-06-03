@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.3 — 2026-06-03
+
+### Docs
+- Added demo GIF to the top of the README — short loop of the agent navigating a live site. No code changes.
+
 ## 0.0.2 — 2026-06-03
 
 ### Added
